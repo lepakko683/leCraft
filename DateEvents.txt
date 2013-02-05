@@ -1,0 +1,2 @@
+DateEvent:daev0:08.07:08.07:It's the birthday of the mod's creator, have fun playing!
+DateEvent:daev1:01.02:28.02:Test event!
