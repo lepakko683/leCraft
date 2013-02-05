@@ -35,7 +35,7 @@ public class LeCraft {
 	
 	public static Block elExtractor = new BlockElementExtractor(3601, 0, Material.rock).setHardness(1F).setResistance(1F).setBlockName("elementExtractor");
 	
-	@SidedProxy(clientSide = "le683.ElementCraft.client.ClientProxyEC2", serverSide = "le683.ElementCraft.common.ClientProxyEC2")
+	@SidedProxy(clientSide = "leCraft.client.ClientProxyEC2", serverSide = "leCraft.common.CommonProxyEC2")
 	public static CommonProxyEC2 cpec2;
 	
 	

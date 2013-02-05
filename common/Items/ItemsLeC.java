@@ -19,8 +19,10 @@ public class ItemsLeC {
 	//public static Item notebookEC2 = new ItemNotebook(26838).setItemName("notbokec2");
 	//public static Item reseNote = new ItemResearchNote(26839).setItemName("resNot");
 	
+	
 	//Items through research
 	public static Item nerdgazmsOK = new ItemNerdgazmsOinkyKnife(26840).setItemName("oinkknife").setIconIndex(16).setTextureFile("/ElementCraft2/res/Items.png");
+	public static Item harvres = new ItemHarvestResult(26841).setItemName("lecharvres");
 	public static void InitNames(){
 		LanguageRegistry.addName(elementStorGemW, "Water Storage Gem");
 		LanguageRegistry.addName(elementStorGemF, "Fire Storage Gem");
@@ -33,6 +35,9 @@ public class ItemsLeC {
 
 		for(int i1=0;i1<ItemMaterialEC2.subtypeCount;i1++){
 			LanguageRegistry.addName(new ItemStack(ec2mat, 1, i1), EC2Reference.getMaterialName(i1));
+		}
+		for(int i2=0;i2<ItemHarvestResult.names.size();i2++){
+			LanguageRegistry.addName(new ItemStack(harvres, 1, i2), ItemHarvestResult.names.get(i2));
 		}
 		/*
 		LanguageRegistry.addName(new ItemStack(element, 1, 0), "Water Element");
