@@ -3,6 +3,9 @@ package leCraft.common.Blocks;
 import java.util.ArrayList;
 import java.util.Random;
 
+import leCraft.common.Items.ItemsLeC;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,6 +15,7 @@ import net.minecraft.world.World;
 
 public class BlockLeCCrop extends LeCMBlock {
 	public int[] growTimes = new int[]{16,6};
+	public int[] dropMetas = new int[]{0,2};
 
 	public BlockLeCCrop(int id) {
 		super(id,0, Material.plants);
@@ -25,7 +29,7 @@ public class BlockLeCCrop extends LeCMBlock {
 	
 	public int getBlockTextureFromSideAndMetadata(int side, int meta)
     {
-		System.out.println(getCrop(meta)*16+getGrowth(meta));
+		//System.out.println(getCrop(meta)*16+getGrowth(meta));
 		return getCrop(meta)*16+getGrowth(meta);
     }
 	
@@ -42,7 +46,7 @@ public class BlockLeCCrop extends LeCMBlock {
 				}
 				retValue = growTimes[q-1] - retValue;
 				
-				System.out.println("q: " + q + " cv: "+ cv + " Growth: " + retValue + " Meta: " + meta);
+				//System.out.println("q: " + q + " cv: "+ cv + " Growth: " + retValue + " Meta: " + meta);
 				return retValue;
 			}
 		}
@@ -55,7 +59,7 @@ public class BlockLeCCrop extends LeCMBlock {
 			if(meta>cv+1){
 				cv+=growTimes[q];
 			}else{
-				System.out.println("Crop: "+(q-1));
+				//System.out.println("Crop: "+(q-1));
 
 				return q-1;
 			}
@@ -90,8 +94,39 @@ public class BlockLeCCrop extends LeCMBlock {
         return ret;
     }
 	
-	public ItemStack getMainDrop(int crop){
-		return crop==0 ? new ItemStack(Item.wheat, 1, 0) : new ItemStack(Item.snowball, 1, 0);
+	private ItemStack getMainDrop(int crop){
+		return new ItemStack(ItemsLeC.harvres, 1, crop*2);
+		//if(dropMetas.length >= crop){
+		//	return new ItemStack(ItemsLeC.harvres, 1, dropMetas[getCrop(crop)]);
+		//}else{
+		//	
+		//}
+	}
+	
+	private float growSpeed(World world, int x, int y, int z){
+		int radius = 1;
+		int meta = world.getBlockMetadata(x, y, z);
+		int crop = this.getCrop(meta);
+		int earth = world.getBlockId(x, y-1, z);
+		
+		float speed = 0f;
+		
+		for(int x1=x-radius;x1<x+radius;x1++){
+			for(int z1=z-radius;z1<z+radius;z1++){
+				if(x1 != x && z1 != z){
+					if(world.getBlockId(x1, y, z1)==BlocksLeC.leccrops.blockID && this.getCrop(world.getBlockMetadata(x1, y, z1))==crop){
+						speed += 1f;
+					}
+				}
+			}
+		}
+		if(blocksList[earth].isFertile(world, x, y-1, z)){
+			speed += 4f;
+		}
+		if(world.canBlockSeeTheSky(x, y, z)){
+			speed += 2f;
+		}
+		return speed;
 	}
 	
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
@@ -100,13 +135,34 @@ public class BlockLeCCrop extends LeCMBlock {
     		int meta = par1World.getBlockMetadata(par2, par3, par4);
     		int next = getCrop(meta)*16+getGrowth(meta+1);
     		par1World.setBlockMetadataWithNotify(par2, par3, par4, next);
-    		System.out.println("Blocks metadata: " + meta);
+    		//System.out.println("Blocks metadata: " + meta);
     	}
         return false;
     }
+	public int getGrowTime(int meta){
+		int crop = this.getCrop(meta);
+		return crop == 0 ? this.growTimes[crop]-1 : this.growTimes[crop];
+	}
 	
-	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
-    	//TODO: update
+	public void updateTick(World world, int x, int y, int z, Random rand) {
+		int meta = world.getBlockMetadata(x, y, z);
+    	if(world.getBlockLightValue(x, y, z) >= 9){
+    		if(rand.nextInt(16)+1 < this.growSpeed(world, x, y, z)){
+    			
+    			int growth=this.getGrowth(meta);
+    			int crop=this.getCrop(meta);
+    			if(world.isRaining() && this.getGrowTime(meta)>=growth+2){
+    				if(rand.nextInt(2)==0){
+    					world.setBlockMetadataWithNotify(x, y, z, meta+2);
+    				}	
+    			}else{
+    				if(this.getGrowTime(meta)>=growth+1){
+    					world.setBlockMetadataWithNotify(x, y, z, meta+1);
+    				}
+    			}
+    			//System.out.println("Grow! " + growth + " " + crop);
+    		}
+    	}
     }
     
     public void onNeighborBlockChange(World par1World, int x, int y, int z, int neid) {
@@ -114,8 +170,8 @@ public class BlockLeCCrop extends LeCMBlock {
     	
     }
     
-    public boolean isValidSoil(World world, int x, int y, int z){
-    	return false;
+    public boolean isValidSoil(int blcid){
+    	return blcid == Block.tilledField.blockID;
     }
 	
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)

@@ -23,7 +23,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@NetworkMod(channels="EC2", clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandlerEC2.class)
+@NetworkMod(channels="EC2", clientSideRequired = true, serverSideRequired = true, packetHandler = PacketHandlerEC2.class)
 
 @Mod(modid="EC2", name="ElementCraft2", version="a0.1")
 public class LeCraft {
