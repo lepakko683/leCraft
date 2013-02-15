@@ -1,9 +1,12 @@
 package leCraft.common.Blocks;
 
+import leCraft.common.entity.tile.TileEntityCompost;
+import leCraft.common.entity.tile.TileEntityMBPart;
 import leCraft.lib.LeCFarmingHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -23,6 +26,7 @@ public class BlocksLeC {
 		GameRegistry.registerBlock(lecfruits, "lecfrt");
 		GameRegistry.registerBlock(lecsapling, "lecsap");
 		GameRegistry.registerBlock(leccrops, "leccrp");
+		GameRegistry.registerBlock(lecmutipart, "lecmup");
 		
 		LanguageRegistry.addName(melter, "Melter");
 		LanguageRegistry.addName(lecwood, LeCFarmingHelper.TreeTypes[0] + " Tree Wood");
@@ -30,5 +34,9 @@ public class BlocksLeC {
 		LanguageRegistry.addName(lecfruits, LeCFarmingHelper.TreeTypes[0]);
 		LanguageRegistry.addName(lecsapling, "Banhammer!");
 		LanguageRegistry.addName(leccrops, "Crops");
+		LanguageRegistry.addName(lecmutipart, "Parts!");
+		
+		TileEntity.addMapping(TileEntityCompost.class, "compostEntity");
+		TileEntity.addMapping(TileEntityMBPart.class, "lecmbpart");
 	}
 }

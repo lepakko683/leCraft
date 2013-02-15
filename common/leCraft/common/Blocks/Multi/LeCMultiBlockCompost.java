@@ -1,6 +1,7 @@
 package leCraft.common.Blocks.Multi;
 
 import leCraft.common.Blocks.LeCBlockPos;
+import leCraft.common.Blocks.Multi.LeCBLayout.BLayoutShape;
 import leCraft.misc.LeCStruckt;
 import net.minecraft.world.World;
 
@@ -19,7 +20,7 @@ public class LeCMultiBlockCompost extends LeCMBlockStruckture {
 					}
 				}
 			}
-			if(this.parts.size()==8){
+			if(this.parts.size()==8 && LeCBLayout.isValidShape(BLayoutShape.CUBE, this.parts)){
 				return true;
 			}else{
 				parts.clear();

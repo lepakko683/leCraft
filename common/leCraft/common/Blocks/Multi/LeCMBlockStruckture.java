@@ -10,8 +10,7 @@ import leCraft.misc.LeCStruckt;
 import net.minecraft.world.World;
 
 public abstract class LeCMBlockStruckture {
-	List<LeCBlockPos> parts = new ArrayList<LeCBlockPos>();
-	//LeCBlockPos[] parts = new LeCBlockPos[8];
+	ArrayList<LeCBlockPos> parts = new ArrayList<LeCBlockPos>();
 	
 	protected int partId = BlocksLeC.lecmutipart.blockID;
 	

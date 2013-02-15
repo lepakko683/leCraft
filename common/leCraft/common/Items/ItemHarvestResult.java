@@ -3,12 +3,16 @@ package leCraft.common.Items;
 import java.util.HashMap;
 import java.util.List;
 
+import leCraft.common.Blocks.BlocksLeC;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 
 public class ItemHarvestResult extends ItemLeC {
 	
@@ -21,11 +25,21 @@ public class ItemHarvestResult extends ItemLeC {
 		super(par1);
 		addSubtype(0, "Blazing Wheat", false);
 		addSubtype(1, "Blazing Seeds", true);
+		addSubtype(2, "Chives", false);
+		addSubtype(3, "Chives' Seeds", false);
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
 		this.setTextureFile("/ElementCraft2/res/Items.png");
 		
 	}
+	
+	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+    {
+		if(par1ItemStack.getItemDamage()==2){
+			par3World.setBlockAndMetadataWithNotify(par4, par5+1, par6, BlocksLeC.leccrops.blockID, 0);
+		}
+        return false;
+    }
 	
 	public String getItemNameIS(ItemStack par1ItemStack)
     {

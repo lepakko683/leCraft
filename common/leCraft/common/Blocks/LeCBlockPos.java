@@ -20,4 +20,8 @@ public class LeCBlockPos {
 	public int posZ(){
 		return this.z;
 	}
+	
+	public String toString(){
+		return "Pos - X: " + Integer.toString(x) + " Y: " + Integer.toString(y) + " Z: " + Integer.toString(z);
+	}
 }
